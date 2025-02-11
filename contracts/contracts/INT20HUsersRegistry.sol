@@ -46,7 +46,7 @@ contract INT20HUsersRegistry is Context, AccessControl, IINT20HUsersRegistry {
             revert AccessControlUnauthorizedAccount(sender, ADMIN_ROLE);
         }
 
-        if (role != ADMIN_ROLE || role != TEACHER_ROLE || role != STUDENT_ROLE) {
+        if (role != ADMIN_ROLE && role != TEACHER_ROLE && role != STUDENT_ROLE) {
             revert InvalidRole(role);
         }
 
