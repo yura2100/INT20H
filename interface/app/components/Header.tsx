@@ -1,11 +1,13 @@
 "use client"
 
-import React from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import {useAccount, useConnect, useDisconnect} from "wagmi";
 
 export function Header() {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false)
+  const { isConnected } = useAccount();
+  const { connect, connectors } = useConnect();
+  const { disconnect } = useDisconnect();
 
   return (
     <header className="bg-primary text-primary-foreground p-4">
@@ -18,22 +20,21 @@ export function Header() {
             <li>
               <Link href="/projects">Projects</Link>
             </li>
-            {isLoggedIn && (
+            {isConnected && (
               <li>
                 <Link href="/projects/create">Create Project</Link>
               </li>
             )}
           </ul>
         </nav>
-        {isLoggedIn ? (
-          <Button onClick={() => setIsLoggedIn(false)} variant="secondary">
+        {isConnected ? (
+          <Button onClick={() => disconnect()} variant="secondary">
             Logout
           </Button>
         ) : (
-          <Button onClick={() => setIsLoggedIn(true)}>Login</Button>
+          <Button onClick={() => connect({ connector: connectors[0] })}>Login</Button>
         )}
       </div>
     </header>
   )
 }
-

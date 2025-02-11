@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { toast } from "@/components/ui/use-toast"
+import {useCreateAssignmentMutation} from "@/web3/hooks/use-create-assignment-mutation";
 
 interface Project {
   id: number
@@ -19,10 +20,10 @@ interface Project {
 
 export default function SubmitProject() {
   const params = useParams()
-  const router = useRouter()
   const [project, setProject] = useState<Project | null>(null)
   const [description, setDescription] = useState("")
   const [agreeToTerms, setAgreeToTerms] = useState(false)
+  const { mutateAsync } = useCreateAssignmentMutation();
 
   useEffect(() => {
     // In a real application, you would fetch the project data from an API
@@ -38,27 +39,14 @@ export default function SubmitProject() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
-    if (!description || !agreeToTerms) {
-      toast({
-        title: "Submission Error",
-        description: "Please provide a description and agree to the terms.",
-        variant: "destructive",
-      })
-      return
-    }
-
-    // Here you would typically handle the actual submission process
-    // For now, we'll just log the data and show a success message
-    console.log("Submitting project:", { projectId: project?.id, description })
-
+    await mutateAsync({
+      projectId: Number(params.id),
+      data: description,
+    });
     toast({
       title: "Project Submitted",
       description: "Your project has been successfully submitted.",
     })
-
-    // Redirect to the project details page after submission
-    router.push(`/projects/${project?.id}`)
   }
 
   if (!project) {

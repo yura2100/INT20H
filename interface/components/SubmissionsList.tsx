@@ -4,6 +4,8 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
+import {useVerifyAssignmentMutation} from "@/web3/hooks/use-verify-assignment-mutation";
+import {getAddress} from "viem";
 
 interface Submission {
   id: number
@@ -18,15 +20,13 @@ interface SubmissionsListProps {
 
 export function SubmissionsList({ projectId, submissions: initialSubmissions }: SubmissionsListProps) {
   const [submissions, setSubmissions] = useState(initialSubmissions)
+  const { mutateAsync } = useVerifyAssignmentMutation();
 
-  const handleApprove = (submissionId: number) => {
-    setSubmissions((prevSubmissions) =>
-      prevSubmissions.map((submission) =>
-        submission.id === submissionId ? { ...submission, status: "approved" } : submission,
-      ),
-    )
-    // In a real application, you would make an API call here to update the submission status
-    console.log(`Approved submission ${submissionId} for project ${projectId}`)
+  const handleApprove = async (submission: Submission) => {
+    await mutateAsync({
+      projectId,
+      student: getAddress(submission.studentId),
+    });
   }
 
   return (
@@ -56,7 +56,7 @@ export function SubmissionsList({ projectId, submissions: initialSubmissions }: 
               </Badge>
             </TableCell>
             <TableCell>
-              {submission.status === "pending" && <Button onClick={() => handleApprove(submission.id)}>Approve</Button>}
+              {submission.status === "pending" && <Button onClick={() => handleApprove(submission)}>Approve</Button>}
             </TableCell>
           </TableRow>
         ))}

@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { toast } from "@/components/ui/use-toast"
+import {useCreateProjectMutation} from "@/web3/hooks/use-create-project-mutation";
+import {getAddress} from "viem";
 
 export default function CreateProject() {
   const [projectName, setProjectName] = useState("")
@@ -17,63 +19,24 @@ export default function CreateProject() {
   const [tokenAddress, setTokenAddress] = useState("")
   const [bountyAmount, setBountyAmount] = useState("")
   const [rewardRecipients, setRewardRecipients] = useState("")
+  const { mutateAsync } = useCreateProjectMutation();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
-    // Basic validation
-    if (!isValidEthereumAddress(tokenAddress)) {
-      toast({
-        title: "Invalid Token Address",
-        description: "Please enter a valid Ethereum address for the ERC20 token.",
-        variant: "destructive",
-      })
-      return
-    }
-
-    if (isNaN(Number(bountyAmount)) || Number(bountyAmount) <= 0) {
-      toast({
-        title: "Invalid Bounty Amount",
-        description: "Please enter a valid positive number for the bounty amount.",
-        variant: "destructive",
-      })
-      return
-    }
-
-    if (
-      isNaN(Number(rewardRecipients)) ||
-      Number(rewardRecipients) <= 0 ||
-      !Number.isInteger(Number(rewardRecipients))
-    ) {
-      toast({
-        title: "Invalid Number of Recipients",
-        description: "Please enter a valid positive integer for the number of reward recipients.",
-        variant: "destructive",
-      })
-      return
-    }
-
-    // Here you would typically handle project creation
-    console.log("Creating project:", {
-      projectName,
+    await mutateAsync({
+      name: projectName,
       description,
-      deadline,
-      verifiers,
-      whitelistedStudents,
-      tokenAddress,
-      bountyAmount,
-      rewardRecipients,
-    })
-
+      expiresAt: new Date(deadline),
+      students: whitelistedStudents.split(",").map((s) => getAddress(s.trim())),
+      teachers: verifiers.split(",").map((s) => getAddress(s.trim())),
+      maxAssignments: Number(rewardRecipients),
+      token: getAddress(tokenAddress),
+      reward: Number(bountyAmount),
+    });
     toast({
       title: "Project Created",
       description: "Your project has been successfully created.",
-    })
-  }
-
-  // Basic Ethereum address validation
-  const isValidEthereumAddress = (address: string) => {
-    return /^0x[a-fA-F0-9]{40}$/.test(address)
+    });
   }
 
   return (
@@ -153,4 +116,3 @@ export default function CreateProject() {
     </div>
   )
 }
-
