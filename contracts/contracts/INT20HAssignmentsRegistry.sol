@@ -2,12 +2,12 @@
 pragma solidity ^0.8.28;
 
 import {Context} from "@openzeppelin/contracts/utils/Context.sol";
-import {IINT20HAssigmentsRegistry, Assignment} from "./interfaces/IINT20HAssigmentsRegistry.sol";
+import {IINT20HAssignmentsRegistry, Assignment} from "./interfaces/IINT20HAssignmentsRegistry.sol";
 import {IINT20HUsersRegistry} from "./interfaces/IINT20HUsersRegistry.sol";
 import {IINT20HProjectsRegistry, Project} from "./interfaces/IINT20HProjectsRegistry.sol";
 import {IINT20HCertificate} from "./interfaces/IINT20HCertificate.sol";
 
-contract INT20HAssigmentsRegistry is Context, IINT20HAssigmentsRegistry {
+contract INT20HAssignmentsRegistry is Context, IINT20HAssignmentsRegistry {
     IINT20HUsersRegistry private _usersRegistry;
     IINT20HProjectsRegistry private _projectsRegistry;
     IINT20HCertificate private _certificate;

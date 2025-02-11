@@ -7,7 +7,7 @@ struct Assignment {
     uint256 gradesCount;
 }
 
-interface IINT20HAssigmentsRegistry {
+interface IINT20HAssignmentsRegistry {
     error AssignmentNotFound();
 
     error StudentNotWhitelisted(address student);
