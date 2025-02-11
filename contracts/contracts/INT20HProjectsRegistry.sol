@@ -27,7 +27,7 @@ contract INT20HProjectsRegistry is Context, AccessControl, IINT20HProjectsRegist
         _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
     }
 
-    function getProject(uint256 projectId) public view override returns (Project memory) {
+    function getProject(uint256 projectId) public view returns (Project memory) {
         Project memory project =  _projects[projectId];
         if (project.creator == address(0)) {
             revert ProjectNotFound();

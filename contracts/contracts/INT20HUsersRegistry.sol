@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
-import {IINT20HUsersRegistry, UserInfo} from "./interfaces/IINT20HUsersRegistry.sol";
-import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
 import {Context} from "@openzeppelin/contracts/utils/Context.sol";
+import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
+import {IINT20HUsersRegistry, UserInfo} from "./interfaces/IINT20HUsersRegistry.sol";
 
 contract INT20HUsersRegistry is Context, AccessControl, IINT20HUsersRegistry {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
@@ -16,21 +16,21 @@ contract INT20HUsersRegistry is Context, AccessControl, IINT20HUsersRegistry {
         _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
     }
 
-    function getUser(address user) public view override returns (UserInfo memory) {
+    function getUser(address user) public view returns (UserInfo memory) {
         return _users[user];
     }
 
-    function checkAdminRole(address user) public view override returns (bool) {
+    function checkAdminRole(address user) public view returns (bool) {
         _checkRole(ADMIN_ROLE, user);
         return true;
     }
 
-    function checkTeacherRole(address user) public view override returns (bool) {
+    function checkTeacherRole(address user) public view returns (bool) {
         _checkRole(TEACHER_ROLE, user);
         return true;
     }
 
-    function checkStudentRole(address user) public view override returns (bool) {
+    function checkStudentRole(address user) public view returns (bool) {
         _checkRole(STUDENT_ROLE, user);
         return true;
     }
