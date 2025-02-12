@@ -2,7 +2,7 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const configCodeGen: CodegenConfig = {
   overwrite: true,
-  schema: "https://225c-176-37-228-246.ngrok-free.app/graphql",
+  schema: "https://int20h-indexer.onrender.com/graphql",
   documents: "./**/*.tsx",
   generates: {
     "./gql/": {

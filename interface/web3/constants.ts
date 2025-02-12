@@ -1,3 +1,3 @@
 export const PROJECTS_REGISTRY_ADDRESS = "0xF7A7fd889EDec22F743460340adD2a53BC582E1D";
 export const ASSIGNMENTS_REGISTRY_ADDRESS = "0x1Ee0727bbaeE5D185ee0a9A7BAF127F45716A7E3";
-export const INDEXER_URL = "https://225c-176-37-228-246.ngrok-free.app/graphql";
+export const INDEXER_URL = "https://int20h-indexer.onrender.com/graphql";
