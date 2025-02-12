@@ -11,6 +11,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { useAllProjectsWithVariablesQuery } from "@/hooks/use-get-projects";
+import { formatEther } from "viem";
 
 export default function ProjectsList() {
   const { data } = useAllProjectsWithVariablesQuery();
@@ -37,7 +38,7 @@ export default function ProjectsList() {
               <p>{project.description}</p>
               <div className="mt-2">
                 <p>
-                  <strong>Bounty:</strong> {project.reward} tokens
+                  <strong>Bounty:</strong> {formatEther(project.reward)} tokens
                 </p>
                 <p>
                   <strong>Recipients:</strong> {project.maxAssignments}
