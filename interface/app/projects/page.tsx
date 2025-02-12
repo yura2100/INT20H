@@ -1,19 +1,16 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
 import { useAllProjectsWithVariablesQuery } from "@/hooks/use-get-projects";
-
-interface Project {
-  id: number
-  name: string
-  description: string
-  deadline: string
-  tokenAddress: string
-  bountyAmount: string
-  rewardRecipients: number
-}
 
 export default function ProjectsList() {
   const { data } = useAllProjectsWithVariablesQuery();
@@ -32,7 +29,9 @@ export default function ProjectsList() {
           <Card key={project.id}>
             <CardHeader>
               <CardTitle>{project.name}</CardTitle>
-              <CardDescription>Deadline: {new Date(Number(project.expiresAt)).toISOString()}</CardDescription>
+              <CardDescription>
+                Deadline: {new Date(Number(project.expiresAt)).toISOString()}
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <p>{project.description}</p>
@@ -58,6 +57,5 @@ export default function ProjectsList() {
         ))}
       </div>
     </div>
-  )
+  );
 }
-

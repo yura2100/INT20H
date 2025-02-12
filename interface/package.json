@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "codegen": "graphql-codegen --config codegen.ts",
-    "postinstall": "codegen"
+    "postinstall": "pnpm codegen"
   },
   "dependencies": {
     "@graphql-typed-document-node/core": "^3.2.0",
